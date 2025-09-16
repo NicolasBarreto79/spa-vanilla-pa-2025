@@ -1,16 +1,21 @@
+const API_URL = 'https://api.spacexdata.com/v5/launches';
 
+export const getLaunches = async () => {
+  try {
+    const res = await fetch(API_URL);
+    return await res.json();
+  } catch (e) {
+    console.error('Error getLaunches:', e);
+    return [];
+  }
+};
 
-const API = 'https://rickandmortyapi.com/api/character/'
-
-const getData = async (id) => {
-    const apiURL = id ? `${API}${id}` : API;
-    try {
-        const response = await fetch(apiURL);
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.log('Fetch Error', error);
-    }
-}
-
-export default getData;
+export const getLaunchById = async (id) => {
+  try {
+    const res = await fetch(`${API_URL}/${id}`);
+    return await res.json();
+  } catch (e) {
+    console.error('Error getLaunchById:', e);
+    return null;
+  }
+};
