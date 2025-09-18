@@ -2,12 +2,11 @@ import Header from './templates/Header.js';
 import routes from './routes/index.js';
 import './styles/styles.css';
 
-// Helpers de rutas
+// Analiza la URL actual y devuelve la ruta
 const parseLocation = () => {
-  // '#/launch/XYZ' -> ['#', 'launch', 'XYZ']
   const parts = location.hash ? location.hash.toLowerCase().split('/') : ['#', ''];
-  const root  = parts[1] || ''; // '' | 'about' | 'launch'
-  const id    = parts[2];
+  const root = parts[1] || '';
+  const id = parts[2];
 
   if (!root || root === '') return '/';
   if (root === 'about') return '/about';
@@ -15,18 +14,17 @@ const parseLocation = () => {
   return '404';
 };
 
+// Router: decide qué vista cargar
 const router = async () => {
-  // header
   document.getElementById('header').innerHTML = Header();
 
-  // route
   const path = parseLocation();
   const page = routes[path] || routes['404'];
   const html = await page();
 
-  // render
   document.getElementById('app').innerHTML = html;
 };
 
+// Ejecutar router al inicio y cuando cambie el hash
 window.addEventListener('load', router);
 window.addEventListener('hashchange', router);

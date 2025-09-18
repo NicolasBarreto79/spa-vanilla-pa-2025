@@ -2,16 +2,17 @@ import { getLaunches } from '../utils/getData.js';
 
 const Home = async () => {
   const data = await getLaunches();
+
+  // mostramos los primeros 12 lanzamientos
   const launches = Array.isArray(data) ? data.slice(0, 12) : [];
 
   const cards = launches.map(l => {
-    const date = new Date(l.date_utc).toLocaleDateString();
     const img = l?.links?.patch?.small || '';
+    const name = l?.name || 'Sin nombre';
     return `
-      <a class="card" href="#/launch/${l.id}">
-        ${img ? `<img src="${img}" alt="${l.name}" loading="lazy"/>` : ''}
-        <h3>${l.name}</h3>
-        <p><strong>Fecha:</strong> ${date}</p>
+      <a class="card" href="#/launch/${l.id}" title="Ver detalle de ${name}">
+        ${img ? `<img src="${img}" alt="${name}" loading="lazy"/>` : ''}
+        <h3>${name}</h3>
       </a>
     `;
   }).join('');
